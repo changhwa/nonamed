@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        maven { url "http://repo.spring.io/libs-milestone" }
+        mavenLocal()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+group = 'io.nonamed.approval'
+version = '0.1'
+
+
+
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-milestone" }
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web:1.0.2.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("com.h2database:h2")
+    testCompile("junit:junit")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
+sourceSets.test.output.resourcesDir = sourceSets.test.output.classesDir
+
+task initProject {
+    project.sourceSets*.allSource.srcDirTrees.flatten().dir.each { dir ->
+        dir.mkdirs()
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}

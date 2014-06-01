@@ -1,0 +1,20 @@
+{
+  "name": "papernote",
+  "version": "0.1",
+  "authors": [
+    "Changhwa Oh <changhwaoh.co@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Bootflat": "~2.0.1",
+    "angular": "~1.2.16",
+    "metro-ui-css": "~2.0.23"
+  }
+}
