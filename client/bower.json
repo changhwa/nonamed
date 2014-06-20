@@ -15,6 +15,7 @@
   "dependencies": {
     "Bootflat": "~2.0.1",
     "angular": "~1.2.16",
-    "metro-ui-css": "~2.0.23"
+    "metro-ui-css": "~2.0.23",
+    "bootstrap": "~3.1.1"
   }
 }
