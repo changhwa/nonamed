@@ -130,6 +130,19 @@ module.exports = function (grunt) {
             }
         },
 
+        nodewebkit: {
+            os_dest : {
+                options: {
+                    build_dir: $destDir, // Where the build version of my node-webkit app is saved
+                    mac: true, // We want to build it for mac
+                    win: false, // We want to build it for win
+                    linux32: false, // We don't need linux32
+                    linux64: true // We don't need linux64
+                },
+                src: ['./**/*'] // Your node-webkit app
+            }
+        },
+
         clean: [ $outputDir ]
     });
 
@@ -210,6 +223,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-karma-sonar');
+    grunt.loadNpmTasks('grunt-node-webkit-builder');
 
 
     grunt.registerTask('test', [ 'jasmine', 'karma:continuous' ]);
