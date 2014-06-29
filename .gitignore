@@ -4,3 +4,5 @@ client/bower_components/
 server/.gradle/
 **/*.iml
 **/build/
+**/dest/**
+**/.grunt/**
