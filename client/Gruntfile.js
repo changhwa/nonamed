@@ -9,6 +9,7 @@ module.exports = function (grunt) {
     var $srcAllFiles = 'js/src/**/*.js';
     var $testFiles = 'js/test/**/*Test.js';
     var $outputDir = 'build';
+    var $destDir = 'dest';
     var $junitResults = $outputDir + '/junit-test-results.xml';
     var $jasmineSpecRunner = $outputDir + '/_SpecRunner.html';
     var $coverageOutputDir = $outputDir + '/coverage';
@@ -46,9 +47,29 @@ module.exports = function (grunt) {
         },
 
         uglify: {
-            build: {
-                src: $outputDir + '/app.js',
-                dest: $outputDir + '/app.min.js'
+            common: {
+                src: $outputDir + '/common-<%= pkg.version %>.js',
+                dest: $destDir + '/common-<%= pkg.version %>.min.js'
+            },
+            approval: {
+                src: $outputDir + '/approval-<%= pkg.version %>.js',
+                dest: $destDir + '/approval-<%= pkg.version %>.min.js'
+            },
+            memo: {
+                src: $outputDir + '/memo-<%= pkg.version %>.js',
+                dest: $destDir + '/memo-<%= pkg.version %>.min.js'
+            },
+            mail: {
+                src: $outputDir + '/mail-<%= pkg.version %>.js',
+                dest: $destDir + '/mail-<%= pkg.version %>.min.js'
+            },
+            sns: {
+                src: $outputDir + '/sns-<%= pkg.version %>.js',
+                dest: $destDir + '/sns-<%= pkg.version %>.min.js'
+            },
+            schedule: {
+                src: $outputDir + '/schedule-<%= pkg.version %>.js',
+                dest: $destDir + '/schedule-<%= pkg.version %>.min.js'
             }
         },
 
