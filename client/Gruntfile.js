@@ -6,21 +6,42 @@
 
 module.exports = function (grunt) {
 
-    var $srcFiles = 'js/src/**/*.js';
+    var $srcAllFiles = 'js/src/**/*.js';
     var $testFiles = 'js/test/**/*Test.js';
     var $outputDir = 'build';
     var $junitResults = $outputDir + '/junit-test-results.xml';
     var $jasmineSpecRunner = $outputDir + '/_SpecRunner.html';
     var $coverageOutputDir = $outputDir + '/coverage';
 
+    var $srcRoot = 'js/src/**/';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
         concat: {
-            main: {
-                src: $srcFiles,
-                dest: $outputDir + '/app.js'
+            common: {
+                src: $srcRoot + 'common/*.js',
+                dest: $outputDir + '/common-<%= pkg.version %>.js'
+            },
+            approval: {
+                src: $srcRoot + 'approval/*.js',
+                dest: $outputDir + '/approval-<%= pkg.version %>.js'
+            },
+            memo: {
+                src: $srcRoot + 'memo/*.js',
+                dest: $outputDir + '/memo-<%= pkg.version %>.js'
+            },
+            mail: {
+                src: $srcRoot + 'mail/*.js',
+                dest: $outputDir + '/mail-<%= pkg.version %>.js'
+            },
+            sns: {
+                src: $srcRoot + 'sns/*.js',
+                dest: $outputDir + '/sns-<%= pkg.version %>.js'
+            },
+            schedule: {
+                src: $srcRoot + 'schedule/*.js',
+                dest: $outputDir + '/schedule-<%= pkg.version %>.js'
             }
         },
 
@@ -34,7 +55,7 @@ module.exports = function (grunt) {
         // Jasmine test
         jasmine: {
             pivotal: {
-                src: $srcFiles,
+                src: $srcAllFiles,
                 options: {
                     specs: $testFiles,
                     outfile: $jasmineSpecRunner,
@@ -58,7 +79,7 @@ module.exports = function (grunt) {
                     'karma-coverage'
                 ],
                 frameworks: [ 'jasmine' ],
-                files: [ $srcFiles, $testFiles ],
+                files: [ $srcAllFiles, $testFiles ],
                 reporters: [ 'junit', 'coverage' ],
                 junitReporter: {
                     outputFile: $junitResults
@@ -121,7 +142,7 @@ module.exports = function (grunt) {
             // An example of dirName is 'PhantomJS 1.9.7 (Mac OS X)'
             var $dirName = $agent.toAgent() + ' (' + $agent.os + ')';
             var $coverageResults = $coverageOutputDir + '/' + $dirName + '/lcov.info';
-            var $sonarSources = makeSonarSourceDirs($srcFiles, $coverageResults);
+            var $sonarSources = makeSonarSourceDirs($srcAllFiles, $coverageResults);
             var $karmaSonarConfig = 'karma_sonar';
             var $ksConfig = grunt.config($karmaSonarConfig);
 
