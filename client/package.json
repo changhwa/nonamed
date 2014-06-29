@@ -1,6 +1,7 @@
 {
   "name":"nonamed",
   "main":"./view/index.html",
+  "version":"0.1.0",
   "window": {
       "toolbar" : false,
       "width" : 1024,
