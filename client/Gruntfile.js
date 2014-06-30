@@ -229,5 +229,5 @@ module.exports = function (grunt) {
     grunt.registerTask('test', [ 'jasmine', 'karma:continuous' ]);
     grunt.registerTask('sonar-only', [ 'set-karma-sonar-sources-property', 'karma_sonar' ]);
     grunt.registerTask('sonar', [ 'test', 'sonar-only' ]);
-    grunt.registerTask('default', ['concat:main', 'uglify:build']);
+    grunt.registerTask('default', ['clean', 'test', 'concat', 'uglify']);
 };
