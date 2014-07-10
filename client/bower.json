@@ -16,6 +16,12 @@
     "Bootflat": "~2.0.1",
     "angular": "~1.2.16",
     "metro-ui-css": "~2.0.23",
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "jquery-ui": "~1.11.0",
+    "font-awesome": "~4.1.0",
+    "fullcalendar": "~2.0.2",
+    "bower-xcharts": "~0.3.0",
+    "select2": "~3.5.0",
+    "angular-route": "~1.2.19"
   }
 }
