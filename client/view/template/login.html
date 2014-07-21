@@ -1,4 +1,4 @@
-<div id="page-login" class="row">
+<div id="page-login" class="row" ng-controller="LoginCtrl">
     <div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3" style="margin-top: 100px;">
 
         <div class="box">
@@ -7,15 +7,15 @@
                     <h3 class="page-header">Login</h3>
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Username</label>
-                    <input type="text" class="form-control" name="username" />
+                    <label class="control-label">Email</label>
+                    <input type="text" class="form-control" name="username" ng-model="user.email"/>
                 </div>
                 <div class="form-group">
                     <label class="control-label">Password</label>
-                    <input type="password" class="form-control" name="password" />
+                    <input type="password" class="form-control" name="password" ng-model="user.passwd"/>
                 </div>
                 <div class="text-center">
-                    <a href="../index.html" class="btn btn-primary">Sign in</a>
+                    <a href="#" class="btn btn-primary" ng-click="doLogin()">Sign in</a>
                 </div>
             </div>
         </div>
