@@ -5,17 +5,19 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.2.RELEASE")
+        classpath "org.flywaydb:flyway-gradle-plugin:3.0"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
+apply plugin: 'flyway'
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
-group = 'io.nonamed.approval'
+group = 'io.nonamed'
 version = '0.1'
 
 
@@ -26,10 +28,12 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:1.0.2.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-data-jpa")
-    compile("com.h2database:h2")
-    testCompile("junit:junit")
+    compile "org.springframework.boot:spring-boot-starter-web:1.0.2.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "com.h2database:h2"
+    compile "org.projectlombok:lombok:1.12.6"
+    compile "mysql:mysql-connector-java:5.1.31"
+    testCompile "junit:junit"
 }
 
 sourceSets {
@@ -60,4 +64,18 @@ task initProject {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.11'
+}
+
+flyway {
+    driver = 'com.mysql.jdbc.Driver'
+    url = 'jdbc:mysql://localhost:3306'
+    schemas = ['nonamed']
+    user = 'nonamed'
+    password = '@nonamed!'
+    locations = ['classpath:db/migration']
+    encoding = 'UTF-8'
+    outOfOrder = false
+    validateOnMigrate = true
+    cleanOnValidationError = false
+    initOnMigrate = false
 }
