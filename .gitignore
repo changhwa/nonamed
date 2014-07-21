@@ -7,3 +7,9 @@ server/.gradle/
 **/dest/**
 **/.grunt/**
 server/classes/
+.metadata/
+RemoteSystemsTempFiles/
+**/.project
+**/.classpath
+**/.gitignore
+**/.settings/
