@@ -6,3 +6,4 @@ server/.gradle/
 **/build/
 **/dest/**
 **/.grunt/**
+server/classes/
