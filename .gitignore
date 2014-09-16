@@ -13,3 +13,5 @@ RemoteSystemsTempFiles/
 **/.classpath
 **/.gitignore
 **/.settings/
+.project
+.classpath
