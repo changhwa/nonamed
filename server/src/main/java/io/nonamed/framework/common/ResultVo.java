@@ -13,6 +13,7 @@ import lombok.Data;
 public class ResultVo {
 
     public String code;
+    public String data;
     public String msg;
 
 

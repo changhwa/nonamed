@@ -23,5 +23,10 @@ public class UserController {
         return userService.userLogin(users);
     }
 
+    @RequestMapping("join")
+    public @ResponseBody String join(@RequestBody Users users) throws IOException {
+        return userService.join(users);
+    }
+
 
 }
