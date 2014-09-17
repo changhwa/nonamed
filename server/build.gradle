@@ -36,6 +36,10 @@ dependencies {
     compile "org.codehaus.jackson:jackson-mapper-asl:1.9.0"
 
     testCompile "junit:junit"
+    testCompile "org.codehaus.groovy:groovy-all:2.2.0"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+    testCompile 'org.spockframework:spock-spring:0.7-groovy-2.0'
+    testCompile "org.springframework.boot:spring-boot-starter-test:1.0.2.RELEASE"
 }
 
 sourceSets {
