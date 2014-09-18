@@ -16,7 +16,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public String userLogin(Users user) throws IOException {
-        Users resultUser = userRepository.findOne(user.email);
+        Users resultUser = userRepository.findByEmailAndPasswd(user.getEmail(), user.getPasswd());
         return requestComment(resultUser);
     }
 

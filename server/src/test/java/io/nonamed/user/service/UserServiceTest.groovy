@@ -56,6 +56,35 @@ class UserServiceTest extends Specification {
 
         ResultVo vo = om.readValue(result, ResultVo.class)
         vo.code == "400"
+    }
 
+    void "test3 사용자가 로그인을 시도한다"(){
+
+        given:
+        userService.join(user)
+
+        when:
+        String result = userService.userLogin(user)
+
+        then:
+        println result
+
+        ResultVo vo = om.readValue(result, ResultVo.class)
+        vo.code == "200"
+    }
+
+    void "test3 사용자가 잘못된 비밀번호로 로그인을 시도한다"(){
+
+        given:
+        user.passwd = "4321"
+
+        when:
+        String result = userService.userLogin(user)
+
+        then:
+        println result
+
+        ResultVo vo = om.readValue(result, ResultVo.class)
+        vo.code == "400"
     }
 }
