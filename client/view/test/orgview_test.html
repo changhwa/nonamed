@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <style>
+
+        /** The Magic **/
+        .btn-breadcrumb .btn:not(:last-child):after {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid white;
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            left: 100%;
+            z-index: 3;
+        }
+        .btn-breadcrumb .btn:not(:last-child):before {
+            content: " ";
+            display: block;
+            width: 0;
+            height: 0;
+            border-top: 17px solid transparent;
+            border-bottom: 17px solid transparent;
+            border-left: 10px solid rgb(173, 173, 173);
+            position: absolute;
+            top: 50%;
+            margin-top: -17px;
+            margin-left: 1px;
+            left: 100%;
+            z-index: 3;
+        }
+
+        /** The Spacing **/
+        .btn-breadcrumb .btn {
+            padding:6px 12px 6px 24px;
+        }
+        .btn-breadcrumb .btn:first-child {
+            padding:6px 6px 6px 10px;
+        }
+        .btn-breadcrumb .btn:last-child {
+            padding:6px 18px 6px 24px;
+        }
+
+        /** Default button **/
+        .btn-breadcrumb .btn.btn-default:not(:last-child):after {
+            border-left: 10px solid #fff;
+        }
+        .btn-breadcrumb .btn.btn-default:not(:last-child):before {
+            border-left: 10px solid #ccc;
+        }
+        .btn-breadcrumb .btn.btn-default:hover:not(:last-child):after {
+            border-left: 10px solid #ebebeb;
+        }
+        .btn-breadcrumb .btn.btn-default:hover:not(:last-child):before {
+            border-left: 10px solid #adadad;
+        }
+
+        /** Primary button **/
+        .btn-breadcrumb .btn.btn-primary:not(:last-child):after {
+            border-left: 10px solid #428bca;
+        }
+        .btn-breadcrumb .btn.btn-primary:not(:last-child):before {
+            border-left: 10px solid #357ebd;
+        }
+        .btn-breadcrumb .btn.btn-primary:hover:not(:last-child):after {
+            border-left: 10px solid #3276b1;
+        }
+        .btn-breadcrumb .btn.btn-primary:hover:not(:last-child):before {
+            border-left: 10px solid #285e8e;
+        }
+
+        /** Success button **/
+        .btn-breadcrumb .btn.btn-success:not(:last-child):after {
+            border-left: 10px solid #5cb85c;
+        }
+        .btn-breadcrumb .btn.btn-success:not(:last-child):before {
+            border-left: 10px solid #4cae4c;
+        }
+        .btn-breadcrumb .btn.btn-success:hover:not(:last-child):after {
+            border-left: 10px solid #47a447;
+        }
+        .btn-breadcrumb .btn.btn-success:hover:not(:last-child):before {
+            border-left: 10px solid #398439;
+        }
+
+        /** Danger button **/
+        .btn-breadcrumb .btn.btn-danger:not(:last-child):after {
+            border-left: 10px solid #d9534f;
+        }
+        .btn-breadcrumb .btn.btn-danger:not(:last-child):before {
+            border-left: 10px solid #d43f3a;
+        }
+        .btn-breadcrumb .btn.btn-danger:hover:not(:last-child):after {
+            border-left: 10px solid #d2322d;
+        }
+        .btn-breadcrumb .btn.btn-danger:hover:not(:last-child):before {
+            border-left: 10px solid #ac2925;
+        }
+
+        /** Warning button **/
+        .btn-breadcrumb .btn.btn-warning:not(:last-child):after {
+            border-left: 10px solid #f0ad4e;
+        }
+        .btn-breadcrumb .btn.btn-warning:not(:last-child):before {
+            border-left: 10px solid #eea236;
+        }
+        .btn-breadcrumb .btn.btn-warning:hover:not(:last-child):after {
+            border-left: 10px solid #ed9c28;
+        }
+        .btn-breadcrumb .btn.btn-warning:hover:not(:last-child):before {
+            border-left: 10px solid #d58512;
+        }
+
+        /** Info button **/
+        .btn-breadcrumb .btn.btn-info:not(:last-child):after {
+            border-left: 10px solid #5bc0de;
+        }
+        .btn-breadcrumb .btn.btn-info:not(:last-child):before {
+            border-left: 10px solid #46b8da;
+        }
+        .btn-breadcrumb .btn.btn-info:hover:not(:last-child):after {
+            border-left: 10px solid #39b3d7;
+        }
+        .btn-breadcrumb .btn.btn-info:hover:not(:last-child):before {
+            border-left: 10px solid #269abc;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            getOrgViewTree();
+            $("#orgView").on('click','li[name=_dept]',function(){
+                $("#deptCode").val($(this).data("deptCode"));
+                $("#deptName").val($(this).text());
+                getOrgViewTree();
+
+            });
+            $("#breadcrumb").on('click','a[name=breadcrumb_nav_btn]',function(){
+                moveBreadCrumbLink($(this).index());
+            });
+        });
+
+        function moveBreadCrumbLink(index){
+
+            var dept = $("a[name=breadcrumb_nav_btn");
+
+            $("#deptCode").val(dept.eq(index).data("deptCode"));
+            $("#deptName").val(dept.eq(index).text());
+
+            for(var i=index; i < dept.length ; i++){
+                if(i == 0){
+                    continue;
+                }
+                var currentDept = dept.eq(i);
+                currentDept.remove();
+            }
+
+            getOrgViewTree();
+        }
+
+        function getOrgViewTree(){
+
+            var currentDeptCode = $("#deptCode").val();
+
+            if(currentDeptCode != ''){
+                var template = '<a href="#" name="breadcrumb_nav_btn" data-dept-code="'+currentDeptCode+'" class="btn btn-default">'+$("#deptName").val()+'</a>';
+                $("#breadcrumb").append(template);
+            }
+
+            var url = "http://localhost:8080/dept/orgtest";
+            var data = {"deptCode" : currentDeptCode};
+            $.ajax({
+                type:"GET",
+                url:url,
+                data: data,
+                dataType: 'json',
+                success:function(args){
+                    var result = args;
+                    var dept = $.parseJSON(result.dept);
+                    console.log(dept);
+                    $("#orgView").html('');
+                    $.each(dept, function(i){
+                        var template = "<li name='_dept' data-dept-code="+dept[i].code+" class='list-group-item'><i class='glyphicon glyphicon-folder-close'></i>"+dept[i].name+"</li>";
+                        $("#orgView").append(template);
+                    });
+                    var user = $.parseJSON(result.user);
+                    console.log(user);
+                    $.each(user, function(i){
+                        var template = "<li name='_user' data-user-code="+user[i].email+" class='list-group-item'><i class='glyphicon glyphicon-user'></i>"+user[i].name+"</li>";
+                        $("#orgView").append(template);
+                    });
+                },
+                error:function(e){
+                    alert(e.responseText);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin-bottom: 10px;">
+        <h2>Breadcrumb Default</h2>
+        <div id="breadcrumb" class="btn-group btn-breadcrumb">
+            <a name="breadcrumb_nav_btn" href="#" data-dept-code="" class="btn btn-default"><i class="glyphicon glyphicon-home"></i></a>
+        </div>
+    </div>
+    <div class="row">
+        <ul id="orgView" class="list-group">
+
+        </ul>
+    </div>
+    <input type="hidden" id="deptCode" name="deptCode" />
+    <input type="hidden" id="deptName" name="deptName" />
+
+</div>
+</body>
+</html>
