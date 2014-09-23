@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -49,6 +50,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public List<Users> findByDeptCode(String deptCode){
+        return userRepository.findByDeptCode(deptCode);
+    }
 
     //TODO : 차후 공통화
     private String requestComment(Users resultUser) throws IOException {

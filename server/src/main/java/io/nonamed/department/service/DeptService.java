@@ -1,5 +1,6 @@
 package io.nonamed.department.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nonamed.department.domain.Department;
 import io.nonamed.department.repository.DeptRepository;
@@ -11,8 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DeptService {
@@ -71,5 +71,50 @@ public class DeptService {
         return dept;
     }
 
+    public String getOrgTree(Department department) throws Exception {
+
+        Set<Department> departments = new HashSet<>();
+
+        if(department.getDeptCode() == null){
+            departments = getDept(0);
+        } else {
+            departments = getChildDeptByParentId(department.getDeptCode());
+        }
+
+        List<Users> users = userService.findByDeptCode(department.getDeptCode()+"");
+
+        String deptTree = makeTree(departments);
+
+        ObjectMapper om = new ObjectMapper();
+        String userTree = om.writeValueAsString(users);
+
+        Map<String, String> treeMap = new HashMap<>();
+        treeMap.put("dept", deptTree);
+        treeMap.put("user", userTree);
+
+        om = new ObjectMapper();
+        log.debug(" tree >> : " + om.writeValueAsString(treeMap));
+        return om.writeValueAsString(treeMap);
+
+    }
+
+    public Set<Department> getDept(int level){
+        return deptRepository.findByLevel(level);
+    }
+
+    public String makeTree(Set<Department> departments) throws Exception {
+
+        List<HashMap<String, String>> depts = new ArrayList<>();
+
+        for(Department dept : departments){
+            HashMap<String, String> deptMap = new HashMap<>();
+            deptMap.put("code", String.valueOf(dept.getDeptCode()));
+            deptMap.put("name", dept.getDeptName());
+            depts.add(deptMap);
+        }
+
+        ObjectMapper om = new ObjectMapper();
+        return om.writeValueAsString(depts);
+    }
 
 }

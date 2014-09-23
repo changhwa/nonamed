@@ -12,4 +12,6 @@ public interface DeptRepository extends JpaRepository<Department, Long> {
 
     @Query(value = "SELECT * FROM DEPARTMENT WHERE PARENT_ID= ?1", nativeQuery = true)
     Set<Department> findByParentId(Long parentId);
+
+    Set<Department> findByLevel(int level);
 }

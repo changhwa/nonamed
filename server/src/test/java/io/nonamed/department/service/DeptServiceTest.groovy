@@ -32,6 +32,10 @@ class DeptServiceTest extends Specification {
     Department dept4 = new Department()
     @Shared
     Department dept5 = new Department()
+    @Shared
+    Department dept6 = new Department()
+    @Shared
+    Department dept7 = new Department()
 
 
     def "전체부서를 조회한다"(){
@@ -91,6 +95,18 @@ class DeptServiceTest extends Specification {
         child.size() > 0
     }
 
+    def "조직도 트리를 가져온다"(){
+
+        given:
+
+
+        when:
+        String result = deptService.getOrgTree(new Department());
+
+        then:
+        1==1
+    }
+
     def "부서에 사용자를 등록한다"(){
 
         given:
@@ -135,6 +151,12 @@ class DeptServiceTest extends Specification {
         dept5.deptName = "테스트부서1_하위2_하위1"
         dept5.parentDept = dept3
         dept5 = deptService.saveDept(dept5)
+
+        dept6.deptName = "테스트부서3"
+        dept6 = deptService.saveDept(dept6)
+
+        dept7.deptName = "테스트부서4"
+        dept7 = deptService.saveDept(dept7)
     }
 
 }
