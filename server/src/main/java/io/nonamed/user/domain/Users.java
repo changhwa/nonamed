@@ -1,12 +1,15 @@
 package io.nonamed.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import io.nonamed.department.domain.Department;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
-@Data
+@Getter @Setter
 @Entity
 public class Users {
 
@@ -32,5 +35,8 @@ public class Users {
     /* 사용자 인증키 */
     public String authKey;
 
-
+    @ManyToOne
+    @JsonBackReference
+    //TODO : 현재는 겸직은 고려되지 않은 상태
+    private Department department;
 }

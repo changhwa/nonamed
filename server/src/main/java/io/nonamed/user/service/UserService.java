@@ -6,6 +6,7 @@ import io.nonamed.user.repository.UserRepository;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.io.IOException;
 
@@ -27,7 +28,7 @@ public class UserService {
             return requestComment(null);
         }
 
-        Users resultUser = userRepository.save(user);
+        Users resultUser = save(user);
         return requestComment(resultUser);
     }
 
@@ -35,13 +36,17 @@ public class UserService {
         return userRepository.findOne(email);
     }
 
-
     private boolean isUserExist(Users user){
         user = findByEmail(user.getEmail());
         if(user != null){
             return true;
         }
         return false;
+    }
+
+    public Users save(Users user){
+        Assert.notNull(user);
+        return userRepository.save(user);
     }
 
 

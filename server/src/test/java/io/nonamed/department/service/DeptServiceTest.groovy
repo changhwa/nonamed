@@ -3,6 +3,8 @@ package io.nonamed.department.service
 import io.nonamed.App
 import io.nonamed.department.domain.Department
 import io.nonamed.department.repository.DeptRepository
+import io.nonamed.user.domain.Users
+import io.nonamed.user.service.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Shared
@@ -13,6 +15,9 @@ class DeptServiceTest extends Specification {
 
     @Autowired
     private DeptService deptService
+
+    @Autowired
+    private UserService userService
 
     @Autowired
     private DeptRepository deptRepository
@@ -84,6 +89,31 @@ class DeptServiceTest extends Specification {
 
         then:
         child.size() > 0
+    }
+
+    def "부서에 사용자를 등록한다"(){
+
+        given:
+
+        Users user1 = new Users()
+        user1.email = "test4@nonamed.io"
+        user1.name = "test4"
+
+        Users user2 = new Users()
+        user2.email = "test5@nonamed.io"
+        user2.name = "test5"
+
+        userService.join(user1)
+        userService.join(user2)
+
+        when:
+        deptService.addUserDept(dept3, user1)
+        deptService.addUserDept(dept3, user2)
+
+        then:
+        Department department = deptService.getDept(dept3)
+        department.getUsers().size() == 2
+
     }
 
     def setDefaultDeptTestData(){
