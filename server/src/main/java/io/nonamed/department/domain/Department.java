@@ -8,14 +8,10 @@ import lombok.Setter;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Entity
-@Getter @Setter
 public class Department {
 
     @Id
@@ -29,7 +25,7 @@ public class Department {
     public Department parentDept;
 
 
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER) //TODO : LAZY가 맞을텐데 확인 필요
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name = "parent_id")
     @JsonBackReference
     private Set<Department> childDept = new HashSet<Department>();
@@ -37,10 +33,9 @@ public class Department {
     private int level;
     private String useYn;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "department")
-    @JsonManagedReference
-    //TODO : 현재는 겸직은 고려되지 않은 상태
+    @ManyToMany(mappedBy="departments", fetch = FetchType.EAGER)
     private Set<Users> users;
+
 
     public Department() {
         users = new HashSet<Users>();
@@ -60,6 +55,54 @@ public class Department {
         this.useYn = useYn;
     }
 
+    public Long getDeptCode() {
+        return deptCode;
+    }
+
+    public void setDeptCode(Long deptCode) {
+        this.deptCode = deptCode;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public Department getParentDept() {
+        return parentDept;
+    }
+
+    public void setParentDept(Department parentDept) {
+        this.parentDept = parentDept;
+    }
+
+    public Set<Department> getChildDept() {
+        return childDept;
+    }
+
+    public void setChildDept(Set<Department> childDept) {
+        this.childDept = childDept;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public String getUseYn() {
+        return useYn;
+    }
+
+    public Set<Users> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<Users> users) {
+        this.users = users;
+    }
+
     public void childDeptAdd(Department department){
         Assert.notNull(department);
         if(!getChildDept().contains(parentDept)){
@@ -67,11 +110,12 @@ public class Department {
         }
     }
 
-    public void addUser(Users user){
-        Assert.notNull(user);
-        if(!getUsers().contains(user)){
+    public void addUser(Users user) {
+        if (!getUsers().contains(user)) {
             getUsers().add(user);
         }
-        user.setDepartment(this);
+        if (!user.getDepartments().contains(this)) {
+            user.getDepartments().add(this);
+        }
     }
 }

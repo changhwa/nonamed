@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.nonamed.department.domain.Department;
 import io.nonamed.department.repository.DeptRepository;
 import io.nonamed.user.domain.Users;
+import io.nonamed.user.repository.UserRepository;
 import io.nonamed.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +16,18 @@ import java.io.IOException;
 import java.util.*;
 
 @Service
+@Transactional
 public class DeptService {
 
     @Autowired
     private DeptRepository deptRepository;
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     private Logger log = LoggerFactory.getLogger(DeptService.class);
 
-    @Transactional
+
     public Department saveDept(Department dept){
 
         if(dept.getParentDept() == null){
@@ -62,12 +64,11 @@ public class DeptService {
     }
 
 
-    public Department addUserDept(Department department, Users user) throws IOException {
-        Department dept = deptRepository.findOne(department.getDeptCode());
+    @Transactional
+    public Department addUserDept(Long deptId, String email) throws IOException {
+        Department dept = deptRepository.findOne(deptId);
+        Users user = userRepository.findOne(email);
         dept.addUser(user);
-        user = userService.findByEmail(user.getEmail());
-        user.setDepartment(dept);
-        userService.save(user);
         return dept;
     }
 
@@ -81,7 +82,8 @@ public class DeptService {
             departments = getChildDeptByParentId(department.getDeptCode());
         }
 
-        List<Users> users = userService.findByDeptCode(department.getDeptCode()+"");
+        //List<Users> users = userService.findByDeptCode(department.getDeptCode()+"");
+        Set<Users> users = userRepository.findByDeptCode(department.getDeptCode());
 
         String deptTree = makeTree(departments);
 

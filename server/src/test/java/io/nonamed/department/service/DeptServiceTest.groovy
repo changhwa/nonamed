@@ -123,8 +123,8 @@ class DeptServiceTest extends Specification {
         userService.join(user2)
 
         when:
-        deptService.addUserDept(dept3, user1)
-        deptService.addUserDept(dept3, user2)
+        deptService.addUserDept(dept3.deptCode, user1.email)
+        deptService.addUserDept(dept3.deptCode, user2.email)
 
         then:
         Department department = deptService.getDept(dept3)

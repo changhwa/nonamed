@@ -1,17 +1,22 @@
 package io.nonamed.user.service;
 
 import io.nonamed.framework.common.ResultVo;
+import io.nonamed.framework.util.SessionUtil;
+import io.nonamed.framework.web.GwSession;
 import io.nonamed.user.domain.Users;
 import io.nonamed.user.repository.UserRepository;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
@@ -48,10 +53,6 @@ public class UserService {
     public Users save(Users user){
         Assert.notNull(user);
         return userRepository.save(user);
-    }
-
-    public List<Users> findByDeptCode(String deptCode){
-        return userRepository.findByDeptCode(deptCode);
     }
 
     //TODO : 차후 공통화

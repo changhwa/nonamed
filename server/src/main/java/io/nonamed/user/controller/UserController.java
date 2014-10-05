@@ -1,13 +1,15 @@
 package io.nonamed.user.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.nonamed.framework.common.ResultVo;
+import io.nonamed.framework.util.SessionUtil;
+import io.nonamed.framework.web.GwSession;
 import io.nonamed.user.domain.Users;
 import io.nonamed.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RestController
@@ -18,9 +20,21 @@ public class UserController {
     private UserService userService;
 
 
-    @RequestMapping("login")
-    public @ResponseBody String login(@RequestBody Users users) throws IOException {
-        return userService.userLogin(users);
+    @RequestMapping(value = "login", method = RequestMethod.POST)
+    public @ResponseBody String login(Users users, HttpServletRequest request) throws IOException {
+
+        String userJson = userService.userLogin(users);
+
+//        ObjectMapper om = new ObjectMapper();
+//        ResultVo resultVo = om.readValue(userJson, ResultVo.class);
+//
+//        if(!"400".equals(resultVo.getCode())){
+//            String userData = resultVo.getData();
+//            Users user = om.readValue(userData, Users.class);
+//            SessionUtil.setGwSession(request, user);
+//        }
+
+        return userJson;
     }
 
     @RequestMapping("join")
